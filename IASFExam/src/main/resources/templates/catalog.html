@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vehicle Catalog</title>
+</head>
+<body>
+<h1>Vehicle Catalog</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Vehicle Name</th>
+        <th>Model</th>
+        <th>Year</th>
+        <th>Color</th>
+        <th th:if="${#authentication.principal.authorities.contains(T(com.apfast.model.Role).ADMIN)}">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="vehicle : ${vehicles}">
+        <td th:text="${vehicle.vehicleName}">Vehicle Name</td>
+        <td th:text="${vehicle.vehicleModel}">Model</td>
+        <td th:text="${vehicle.yearOfManufacture}">Year</td>
+        <td th:text="${vehicle.vehicleColor}">Color</td>
+        <td th:if="${#authentication.principal.authorities.contains(T(com.apfast.model.Role).ADMIN)}">
+            <a th:href="@{/vehicles/edit/{id}(id=${vehicle.vehicleId})}">Edit</a> |
+            <a th:href="@{/vehicles/delete/{id}(id=${vehicle.vehicleId})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div th:if="${#authentication.principal.authorities.contains(T(com.apfast.model.Role).ADMIN)}">
+    <a th:href="@{/vehicles/add}">Add Vehicle</a>
+</div>
+</body>
+</html>
